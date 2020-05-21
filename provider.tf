@@ -4,10 +4,11 @@ provider "aws" {
 
 resource "aws_instance" "webapp_instance" {
   count = "${var.instance_count}"
-  instance_type = "${var.instance_type}"
   ami = "${var.ami_id}"
+  instance_type = "${var.instance_type}"
+  security_groups = ["${aws_security_group.allow_port22.id}"]
+  subnet_id = "${element(aws_subnet.public.*.id,count.index)}"
   key_name = "${var.ssh_key_name}"
-  subnet_id = "${var.subnet_id}"
 
   tags = {
     Name = "web-app-dev"
