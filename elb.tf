@@ -3,7 +3,8 @@ resource "aws_elb" "webapp-elb" {
   name               = "webapp-elb"
   #availability_zones = ["${var.azs}"]
   #subnets = ["${aws_subnet.public.*.id}"]
-  security_groups = ["${aws_security_group.allow_port22.id}"]
+  vpc_id      = "${aws_vpc.webapp_vpc.id}"
+  security_groups = ["${aws_security_group.allow_port.id}"]
 
   listener {
     instance_port     = 80
